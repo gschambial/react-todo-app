@@ -2,10 +2,10 @@ Quick Pointers for react-todo-app:
 
 
 ## Create React App
-    ```
+
     npx create-react-app <app-name>
     npm start
-    ```
+    
 
 ## Type of Components
 - Class Components
