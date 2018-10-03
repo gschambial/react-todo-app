@@ -2,8 +2,10 @@ Quick Pointers for react-todo-app:
 
 
 ## Create React App
-    -- npx create-react-app <app-name>
-    -- npm start
+    ```
+    npx create-react-app <app-name>
+    npm start
+    ```
 
 ## Type of Components
 - Class Components
@@ -85,47 +87,51 @@ Quick Pointers for react-todo-app:
       ```
       
 ## Links & NavLinks 
-    -- import {Link, Navlink} from 'react-router-dom'
-    
-        <Link to="/">Home</Link>
-        <Link to="/about">About</Link>
-        <Link to="/todos">Todos</Link>
+-   Example:
 
-        <NavLink to="/">Home</NavLink>
-        <NavLink to="/about">About</NavLink>
-        <NavLink to="/todos">Todos</NavLink>
+    ```
+    import {Link, Navlink} from 'react-router-dom'
     
-    -- Difference
+    <Link to="/">Home</Link>
+    <Link to="/about">About</Link>
+    <Link to="/todos">Todos</Link>
 
-       -- In case of NavLink, we get a class 'active' attached to underlying
-          anchor tag, to indicate currently selected NavLink
+    <NavLink to="/">Home</NavLink>
+    <NavLink to="/about">About</NavLink>
+    <NavLink to="/todos">Todos</NavLink>
+    ```
+-   Difference
+    -   In case of NavLink, we get a class 'active' attached to underlying anchor tag, to indicate currently selected NavLink
     
 ## Redirecting programetically
 
-    -- props.history.push('/todos');
-
-    -- But, all these values are only available to Components which are present as Route 
+-   Use `props` of a Component to do this as:
+    ```
+    props.history.push('/todos');
+    ```
+-   But, all these values are only available to Components which are accessed via a Route 
 
     For example,
 
-        <Navbar/>
-        <Route exact path="/" component={Home}/>
-
-        -- Navbar doesn't have access to default properties attached by Reach Router
-
-        -- Way around: Higher order components to supercharge a Component
-
-            import { withRouter } from 'react-router-dom';
-
-            export default withRouter(Navbar);
-
+    ```
+    <Navbar />
+    <Route exact path="/" component={Home}/>
+    ```
+    -   Here, `Navbar` Component doesn't have access to default properties attached by React Router
+    -   Way around: Higher order components to supercharge a Component
+        ```
+        import { withRouter } from 'react-router-dom';
+        export default withRouter(Navbar);
+        ```
+        
 ## Higher Order Components
 
-    -- Add some extra functionality to original commponent
+-   Add some extra functionality to original commponent
 
-        import React from 'react';
+    ```
+    import React from 'react';
 
-        const Rainbow = (WrappedComponent) => {
+    const Rainbow = (WrappedComponent) => {
             const color = ['Red', 'Green', 'Blue'];
             const randomColor = color[Math.floor(Math.random() * 2)];
             const className = randomColor+'-text';
@@ -136,28 +142,39 @@ Quick Pointers for react-todo-app:
                     </div>
                 );
             }
-        }
-
-        export default Rainbow;
+    }
+    export default Rainbow;
+    ```
 
 ## Getting data from an API
 
-    -- npm install axios
-
-    -- axios.get('url').then(response => {
+-   Install Axios
+    ```
+    npm install axios
+    ```
+-   Use Axios to make HTTP calls
+    ```
+    axios.get('url').then(response => {
 
     })
+    ```
 
 ## Route Paramters
 
-    -- <Route path="/:post_id" component={Post} />              
-
-    -- let id = this.props.match.params.post_id;
-
+-   Passing Params:
+    ```
+    <Route path="/:post_id" component={Post} />              
+    ```
+-   Accessing Route Parameters in Component
+    ```
+    let id = this.props.match.params.post_id;
+    ```
 ## Switch tag
 
-    -- to load only one matching component
-
+-   If a path matches mutiple routes then React Router would load all matching Components.
+-   But, mostly you would like to load one Component per Path.
+-   It can be done using `exact` attribute of `Route` tag:
+    ```
      <Switch>
             <Route exact path="/" component={Home}/>
             <Route path="/about" component={About}/>
@@ -165,21 +182,23 @@ Quick Pointers for react-todo-app:
                           deleteTodo = {this.deleteTodo} addTodo = {this.addTodo}/>}/>
             <Route path="/:post_id" component={Post} />
     </Switch>
-
+    ```
+    
 ## Importing Images
 
-    -- Import your image:
-
-        import Icon from '../so-icon.png';
+-   Import your image:
+    ```
+    import Icon from '../so-icon.png';
+    ```
+-   Use your image
+    ```
+    <img src={Icon} alt="Icon"/>
+    ```
     
-    -- Use your image
-
-        <img src={Icon} alt="Icon"/>
-
 ## Redux
 
-    -- Centralized data store
-
+-   Centralized data store
+    ```
     const { createStore } = Redux;
 
     const initState = {
@@ -206,71 +225,81 @@ Quick Pointers for react-todo-app:
     const todoAction = { type: 'ADD_TODO', todo: 'Buy milk'};
 
     store.dispatch(todoAction);
-
+    ```
+    
 ## React with Redux
 
-    -- install 2 packages
+-   install 2 packages
 
-        npm install redux
+    ```
+    npm install redux
 
-        npm install react-redux
+    npm install react-redux
+    ```
 
-    -- Imports
+-   Imports
 
-        import {createStore} from 'redux';
-        import {Provider} from 'react-redux';
+    ```
+    import {createStore} from 'redux';
+    import {Provider} from 'react-redux';
+    ```
+    
+-   Create a Reducer
 
-    -- Create a Reducer
-
-        const initState = {
+    ```
+    const initState = {
         posts: []
-        };
+    };
 
-        const rootReducer = (state = initState, action) =>{ 
+    const rootReducer = (state = initState, action) =>{ 
+        return state;
+    };
 
-        };
+    export default rootReducer;
 
-        export default rootReducer;
+-   Import Reducer
 
-    -- Import Reducer
+    ```
+    import {rootReducer} from './reducers/RootReducer';
+    ```
 
-        import {rootReducer} from './reducers/RootReducer';
+-  Create Store
 
-    -- Create Store
+    ```
+    const store = createStore(rootReducer);
+    ```
+    
+-   Link Provider to our App
 
-        const store = createStore(rootReducer);
+    ```
+    ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
+    ```
 
-    -- Link Provider to our App
-
-        ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
-
-    -- Connect a Component to Store
-
-        -- Import
-
-            import {connect} from 'react-redux';
-
-        -- Use HOC returned by connect method to supercharge our component
-
-            export default connect()(Home);
-
-    -- Map data from store to our component
-
-        -- use mapStateToProps method to add objects from Redux Store to Component Props
-
+-   Connect a Component to Store
+    -   Import
+        ```
+        import {connect} from 'react-redux';
+        ```
+    -   Use HOC returned by connect method to supercharge our component
+        ```
+        export default connect()(Home);
+        ```
+    -   Map data from store to our component
+        -   use mapStateToProps method to add objects from Redux Store to Component Props
+            ```
             const mapStateToProps = (state) =>{
                 return {
                     posts : state.posts
                 }
             }
-
+            
             export default connect(mapStateToProps)(Home)
+            ```
 
+    -   Map Dispatches to Props
 
-    -- Map Dispatches to Props
-
-        -- use mapDispatchToProps to link Components props to Reducer's actions 
-
+        -   use mapDispatchToProps to link Components props to Reducer's actions 
+            ```
             const mapDispatchToProps = (dispatch) => {
                 return {
                     deletePost: (id) => {
@@ -278,13 +307,14 @@ Quick Pointers for react-todo-app:
                     }
                 }
             }
-
+            ```
        
-    -- Action Creators
-
+    -   Action Creators
+        ```
         export const deletePost = (id) => {
             return {
                 type: 'DELETE_POST',
                 id: id
             };
         };
+        ```
